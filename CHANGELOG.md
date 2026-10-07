@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0 – 2026-10-07
+
+- Neu: Button „Auf Standard zurücksetzen“ stellt Beispiel-Timer und Signal-Einstellungen wie beim ersten Aufruf wieder her (mit Sicherheitsabfrage)
+
 ## 1.1.1 – 2026-10-07
 
 - Übungszeiten im Editor werden in Minuten und Sekunden angezeigt (z. B. 1:30 min)

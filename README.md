@@ -22,6 +22,7 @@ Web-App für Intervalltraining mit mehreren, frei konfigurierbaren Timern – mi
 - Signale: Start-/Pausentöne, Piepser in den letzten 3 Sekunden, Sprachansagen („Pause. Als Nächstes: Kniebeugen“) – einzeln abschaltbar
 - Bildschirm bleibt während des Trainings an (sofern der Browser die Wake-Lock-API unterstützt)
 - Speicherung im Browser (localStorage), Export/Import als JSON-Datei zum Übertragen auf andere Geräte
+- „Auf Standard zurücksetzen“: stellt den Zustand wie beim ersten Aufruf wieder her (Beispiel-Timer, Signale an; eigene Timer werden nach Rückfrage gelöscht)
 
 ### Ablauf eines Timers
 

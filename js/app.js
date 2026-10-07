@@ -4,7 +4,7 @@ import {
   PHASE, DEFAULT_TIMER, normalizeTimer, validateTimer, buildSchedule, splitInterval,
   totalDuration, formatTime, announcement, exerciseLabel,
 } from './schedule.js';
-import { loadState, saveState, exportTimers, parseImport, newId } from './storage.js';
+import { loadState, saveState, exportTimers, parseImport, newId, defaultState } from './storage.js';
 import { TimerEngine } from './engine.js';
 import { Signals } from './audio.js';
 
@@ -385,6 +385,18 @@ document.addEventListener('click', (e) => {
     case 'next': run?.engine.next(); updateClock(); break;
     case 'prev': run?.engine.previous(); updateClock(); break;
     case 'stop': stopTimer(); break;
+    case 'reset': {
+      const msg = 'Alle Timer und Einstellungen auf den Auslieferungszustand zurücksetzen?\n\n'
+        + 'Deine eigenen Timer werden dabei gelöscht. Wenn du sie behalten möchtest, exportiere sie vorher.';
+      if (!confirm(msg)) break;
+      const fresh = defaultState();
+      state.timers = fresh.timers;
+      state.settings = fresh.settings;
+      syncSettings();
+      persist(); renderList();
+      toast('Auf Standard zurückgesetzt.');
+      break;
+    }
     case 'export': {
       const blob = new Blob([exportTimers(state.timers)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -410,6 +422,13 @@ $('#import-file').addEventListener('change', async (e) => {
     toast(`Import fehlgeschlagen: ${err.message}`);
   }
 });
+
+function syncSettings() {
+  for (const key of ['sound', 'speech']) {
+    $(`#opt-${key}`).checked = state.settings[key];
+    signals[key] = state.settings[key];
+  }
+}
 
 for (const key of ['sound', 'speech']) {
   const box = $(`#opt-${key}`);

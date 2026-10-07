@@ -14,7 +14,8 @@ export function newId() {
   return `t-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function defaultState() {
+/** Zustand wie beim ersten Aufruf: Beispiel-Timer und alle Signale an. */
+export function defaultState() {
   return {
     timers: PRESETS.map((p) => ({ ...normalizeTimer(p), id: newId() })),
     settings: { sound: true, speech: true },

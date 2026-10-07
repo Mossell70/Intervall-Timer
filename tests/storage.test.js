@@ -52,3 +52,14 @@ test('Import bereinigt Werte', () => {
   assert.equal(t.rounds, 100);
   assert.equal(t.hack, undefined);
 });
+
+test('defaultState liefert den Auslieferungszustand mit neuen IDs', async () => {
+  const { defaultState, PRESETS } = await import('../js/storage.js');
+  const a = defaultState();
+  const b = defaultState();
+  assert.deepEqual(a.timers.map((t) => t.name), PRESETS.map((p) => p.name));
+  assert.deepEqual(a.settings, { sound: true, speech: true });
+  assert.notEqual(a.timers[0].id, b.timers[0].id);
+  a.timers[0].name = 'geändert';
+  assert.equal(defaultState().timers[0].name, PRESETS[0].name); // Vorlagen bleiben unverändert
+});
