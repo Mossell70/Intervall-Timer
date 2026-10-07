@@ -1,0 +1,13 @@
+{
+  "name": "intervall-timer",
+  "version": "1.0.0",
+  "description": "Intervall-Timer mit konfigurierbaren Intervallen, Übungen, Pausen und Runden",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check": "for f in js/*.js; do node --check \"$f\" || exit 1; done",
+    "start": "npx --yes serve -l 8080 ."
+  },
+  "engines": { "node": ">=20" }
+}
