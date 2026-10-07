@@ -1,6 +1,6 @@
 {
   "name": "intervall-timer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Intervall-Timer mit konfigurierbaren Intervallen, Übungen, Pausen und Runden",
   "private": true,
   "type": "module",

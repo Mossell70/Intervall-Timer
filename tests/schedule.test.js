@@ -7,7 +7,7 @@ import {
 
 const base = {
   name: 'Test', prepare: 10, intervalTime: 60, exerciseCount: 3, exercises: ['A', 'B', 'C'],
-  intervalPause: 15, intervalsPerRound: 4, rounds: 3, roundPause: 120,
+  exercisePause: 0, intervalPause: 15, intervalsPerRound: 4, rounds: 3, roundPause: 120,
 };
 
 test('splitInterval verteilt Restsekunden auf die ersten Übungen', () => {
@@ -82,4 +82,23 @@ test('Sprachansagen', () => {
   const rp = phases.findIndex((p) => p.type === PHASE.ROUND_PAUSE);
   assert.equal(announcement(phases, rp), 'Rundenpause. Danach Runde 2 von 3.');
   assert.equal(announcement(phases, rp + 1), 'Runde 2. A');
+});
+
+test('Übungspausen liegen nur zwischen Übungen eines Intervalls', () => {
+  const phases = buildSchedule({ ...base, exercisePause: 5 });
+  const count = (type) => phases.filter((p) => p.type === type).length;
+  assert.equal(count(PHASE.EXERCISE_PAUSE), 3 * 4 * (3 - 1));
+  assert.deepEqual(phases.slice(1, 7).map((p) => p.type),
+    [PHASE.WORK, PHASE.EXERCISE_PAUSE, PHASE.WORK, PHASE.EXERCISE_PAUSE, PHASE.WORK, PHASE.INTERVAL_PAUSE]);
+  // Übungszeit bleibt Intervallzeit ÷ Übungen, die Pausen kommen hinzu
+  assert.ok(phases.filter((p) => p.type === PHASE.WORK).every((p) => p.duration === 20));
+  assert.equal(totalDuration(phases), totalDuration(buildSchedule(base)) + 24 * 5);
+  assert.equal(announcement(phases, 2), 'Pause. Als Nächstes: B');
+});
+
+test('Übungspause: Standard 0, ältere gespeicherte Timer bleiben unverändert', () => {
+  const { exercisePause, ...old } = { ...base, exercisePause: undefined };
+  assert.equal(normalizeTimer(old).exercisePause, 0);
+  assert.equal(buildSchedule(old).some((p) => p.type === PHASE.EXERCISE_PAUSE), false);
+  assert.ok(validateTimer({ ...base, exercisePause: -1 }).exercisePause);
 });

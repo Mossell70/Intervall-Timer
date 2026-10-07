@@ -5,6 +5,7 @@
   --surface: #FFFFFF;
   --line: #C9D2D7;
   --work: #E4572E;         /* Übung */
+  --exercisePause: #6A5C9A;/* Pause zwischen Übungen */
   --intervalPause: #2C7DA0;/* Pause zwischen Intervallen */
   --roundPause: #3D7A50;   /* Rundenpause */
   --prepare: #E9A83A;      /* Vorbereitung */
@@ -145,6 +146,7 @@ input[aria-invalid="true"] { border-color: var(--error); }
 .preview-bar { display: flex; height: 2.25rem; border-radius: 6px; overflow: hidden; gap: 1px; background: var(--line); }
 .seg { min-width: 1px; }
 .seg-work { background: var(--work); }
+.seg-exercisePause { background: var(--exercisePause); }
 .seg-intervalPause { background: var(--intervalPause); }
 .seg-roundPause { background: var(--roundPause); }
 .seg-prepare { background: var(--prepare); }
@@ -152,6 +154,7 @@ input[aria-invalid="true"] { border-color: var(--error); }
 .legend li { display: inline-flex; align-items: center; gap: 0.4rem; }
 .sw { width: 0.85rem; height: 0.85rem; border-radius: 3px; display: inline-block; }
 .sw-work { background: var(--work); }
+.sw-exercisePause { background: var(--exercisePause); }
 .sw-intervalPause { background: var(--intervalPause); }
 .sw-roundPause { background: var(--roundPause); }
 .sw-prepare { background: var(--prepare); }
@@ -169,6 +172,7 @@ input[aria-invalid="true"] { border-color: var(--error); }
   overflow: hidden;
 }
 .run[data-phase="work"] { --phase: var(--work); --on-phase: #FFFFFF; }
+.run[data-phase="exercisePause"] { --phase: var(--exercisePause); --on-phase: #FFFFFF; }
 .run[data-phase="intervalPause"] { --phase: var(--intervalPause); --on-phase: #FFFFFF; }
 .run[data-phase="roundPause"] { --phase: var(--roundPause); --on-phase: #FFFFFF; }
 .run[data-phase="prepare"] { --phase: var(--prepare); --on-phase: #1B1B1B; }

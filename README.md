@@ -10,6 +10,7 @@ Web-App für Intervalltraining mit mehreren, frei konfigurierbaren Timern – mi
 - Pro Timer einstellbar:
   - **Intervallzeit** – Dauer eines Intervalls
   - **Übungen pro Intervall** – die Intervallzeit wird gleichmäßig auf die Übungen aufgeteilt, die direkt nacheinander laufen (optional mit Namen)
+  - **Pause zwischen Übungen** – zusätzlich zur Übungszeit, nur zwischen den Übungen eines Intervalls
   - **Pause zwischen Intervallen**
   - **Intervalle pro Runde**
   - **Runden** (Wiederholungen)
@@ -26,12 +27,12 @@ Web-App für Intervalltraining mit mehreren, frei konfigurierbaren Timern – mi
 
 ```
 Vorbereitung
-Runde 1:  [Übung 1 | Übung 2 | Übung 3]  Pause  [Übung 1 | Übung 2 | Übung 3]  …  (Intervalle pro Runde)
+Runde 1:  [Übung 1 · Ü-Pause · Übung 2 · Ü-Pause · Übung 3]  Intervallpause  [Übung 1 · …]  …  (Intervalle pro Runde)
 Rundenpause
 Runde 2:  …
 ```
 
-Nach dem letzten Intervall einer Runde folgt keine Intervallpause, nach der letzten Runde keine Rundenpause. Pausen mit 0 Sekunden werden übersprungen.
+Nach der letzten Übung eines Intervalls folgt keine Übungspause, nach dem letzten Intervall einer Runde keine Intervallpause nach der letzten Runde keine Rundenpause. Pausen mit 0 Sekunden werden übersprungen.
 
 ### Bedienung per Tastatur (während des Trainings)
 

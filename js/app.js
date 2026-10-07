@@ -97,7 +97,7 @@ function renderList() {
 /* ---------------- Editor ---------------- */
 
 const form = $('#edit-form');
-const DURATION_FIELDS = ['intervalTime', 'intervalPause', 'roundPause', 'prepare'];
+const DURATION_FIELDS = ['intervalTime', 'exercisePause', 'intervalPause', 'roundPause', 'prepare'];
 const COUNT_FIELDS = ['exerciseCount', 'intervalsPerRound', 'rounds'];
 
 function setDuration(name, seconds) {
@@ -177,8 +177,10 @@ function updatePreview() {
   const split = splitInterval(timer.intervalTime, timer.exerciseCount);
   secs.forEach((s, i) => { s.textContent = split[i] !== undefined ? `${split[i]} s` : ''; });
   $('#split-hint').textContent = timer.exerciseCount > 1
-    ? `Die Intervallzeit wird gleichmäßig auf die ${timer.exerciseCount} Übungen verteilt; zwischen den Übungen gibt es keine Pause.`
-    : '';
+    ? `Die Intervallzeit wird gleichmäßig auf die ${timer.exerciseCount} Übungen verteilt. ${timer.exercisePause > 0
+      ? `Dazu kommt zwischen den Übungen jeweils ${formatTime(timer.exercisePause)} Pause.`
+      : 'Zwischen den Übungen gibt es keine Pause.'}`
+    : 'Bei nur einer Übung pro Intervall gibt es keine Übungspause.';
   const work = phases.filter((p) => p.type === PHASE.WORK).reduce((s, p) => s + p.duration, 0);
   $('#preview-total').textContent = `Gesamt ${formatTime(totalDuration(phases))} (davon ${formatTime(work)} Training)`;
   const bar = phaseStrip(phases, 'preview-bar');
@@ -234,6 +236,7 @@ function phaseTitle(p) {
   switch (p.type) {
     case PHASE.PREPARE: return 'Gleich geht’s los';
     case PHASE.WORK: return p.exercises > 1 ? `Übung ${p.exercise} von ${p.exercises}` : 'Übung';
+    case PHASE.EXERCISE_PAUSE: return 'Übungspause';
     case PHASE.INTERVAL_PAUSE: return 'Pause';
     case PHASE.ROUND_PAUSE: return 'Rundenpause';
     default: return '';
@@ -253,6 +256,7 @@ function renderNext(index) {
   let text = '';
   if (!next) text = 'Letzte Phase';
   else if (next.type === PHASE.WORK) text = `Danach: ${next.label}`;
+  else if (next.type === PHASE.EXERCISE_PAUSE) text = `Danach: ${formatTime(next.duration)} Übungspause`;
   else if (next.type === PHASE.INTERVAL_PAUSE) text = `Danach: ${formatTime(next.duration)} Pause`;
   else if (next.type === PHASE.ROUND_PAUSE) text = `Danach: ${formatTime(next.duration)} Rundenpause`;
   if (next && next.type !== PHASE.WORK && nextWork) text += `, dann ${nextWork.label}`;

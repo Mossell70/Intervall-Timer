@@ -4,6 +4,7 @@
 export const PHASE = Object.freeze({
   PREPARE: 'prepare',
   WORK: 'work',
+  EXERCISE_PAUSE: 'exercisePause',
   INTERVAL_PAUSE: 'intervalPause',
   ROUND_PAUSE: 'roundPause',
 });
@@ -14,6 +15,7 @@ export const LIMITS = Object.freeze({
   prepare: { min: 0, max: 600 },
   intervalTime: { min: 1, max: 3600 },
   exerciseCount: { min: 1, max: 20 },
+  exercisePause: { min: 0, max: 3600 },
   intervalPause: { min: 0, max: 3600 },
   intervalsPerRound: { min: 1, max: 100 },
   rounds: { min: 1, max: 100 },
@@ -26,6 +28,7 @@ export const DEFAULT_TIMER = Object.freeze({
   intervalTime: 60,
   exerciseCount: 3,
   exercises: [],
+  exercisePause: 0,
   intervalPause: 15,
   intervalsPerRound: 4,
   rounds: 3,
@@ -33,7 +36,7 @@ export const DEFAULT_TIMER = Object.freeze({
 });
 
 const NUMERIC_FIELDS = [
-  'prepare', 'intervalTime', 'exerciseCount', 'intervalPause',
+  'prepare', 'intervalTime', 'exerciseCount', 'exercisePause', 'intervalPause',
   'intervalsPerRound', 'rounds', 'roundPause',
 ];
 
@@ -75,6 +78,7 @@ export function validateTimer(raw) {
     prepare: 'Vorbereitung',
     intervalTime: 'Intervallzeit',
     exerciseCount: 'Übungen pro Intervall',
+    exercisePause: 'Übungspause',
     intervalPause: 'Intervallpause',
     intervalsPerRound: 'Intervalle pro Runde',
     rounds: 'Runden',
@@ -109,7 +113,7 @@ export function exerciseLabel(timer, index) {
 
 /**
  * Erzeugt die Phasenfolge:
- * Vorbereitung → für jede Runde: für jedes Intervall: Übungen nacheinander,
+ * Vorbereitung → für jede Runde: für jedes Intervall: Übungen nacheinander (dazwischen Übungspause),
  * zwischen Intervallen Intervallpause, zwischen Runden Rundenpause.
  * Pausen mit 0 Sekunden werden weggelassen; nach dem letzten Intervall/der letzten Runde folgt keine Pause.
  */
@@ -130,6 +134,9 @@ export function buildSchedule(input) {
     for (let i = 1; i <= t.intervalsPerRound; i++) {
       for (let e = 1; e <= t.exerciseCount; e++) {
         phases.push({ type: PHASE.WORK, duration: durations[e - 1], label: exerciseLabel(t, e - 1), ...pos(r, i, e) });
+        if (e < t.exerciseCount && t.exercisePause > 0) {
+          phases.push({ type: PHASE.EXERCISE_PAUSE, duration: t.exercisePause, label: 'Übungspause', ...pos(r, i, e) });
+        }
       }
       if (i < t.intervalsPerRound && t.intervalPause > 0) {
         phases.push({ type: PHASE.INTERVAL_PAUSE, duration: t.intervalPause, label: 'Pause', ...pos(r, i, t.exerciseCount) });
@@ -153,6 +160,7 @@ export function announcement(phases, index) {
     case PHASE.WORK:
       if (p.round > 1 && p.interval === 1 && p.exercise === 1) return `Runde ${p.round}. ${p.label}`;
       return p.label;
+    case PHASE.EXERCISE_PAUSE:
     case PHASE.INTERVAL_PAUSE:
       return next ? `Pause. Als Nächstes: ${next.label}` : 'Pause.';
     case PHASE.ROUND_PAUSE:
