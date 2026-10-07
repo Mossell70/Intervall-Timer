@@ -32,7 +32,7 @@ Rundenpause
 Runde 2:  …
 ```
 
-Nach der letzten Übung eines Intervalls folgt keine Übungspause, nach dem letzten Intervall einer Runde keine Intervallpause nach der letzten Runde keine Rundenpause. Pausen mit 0 Sekunden werden übersprungen.
+Nach der letzten Übung eines Intervalls folgt keine Übungspause, nach dem letzten Intervall einer Runde keine Intervallpause und nach der letzten Runde keine Rundenpause. Pausen mit 0 Sekunden werden übersprungen.
 
 ### Bedienung per Tastatur (während des Trainings)
 
