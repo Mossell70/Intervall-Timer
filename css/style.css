@@ -139,7 +139,8 @@ input[aria-invalid="true"] { border-color: var(--error); }
 .exercise-names li::marker { font-weight: 600; color: var(--ink-soft); }
 .exercise-names li { padding-left: 0.3rem; }
 .exercise-row { display: flex; align-items: center; gap: 0.6rem; }
-.exercise-row .secs { color: var(--ink-soft); white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 3.5rem; text-align: right; }
+.exercise-row input { flex: 1 1 auto; min-width: 0; }
+.exercise-row .secs { flex: 0 0 auto; color: var(--ink-soft); white-space: nowrap; font-variant-numeric: tabular-nums; min-width: 4.5rem; text-align: right; }
 
 .preview { display: grid; gap: 0.6rem; }
 .preview-total { font: 600 1.6rem/1 var(--display); font-variant-numeric: tabular-nums; }

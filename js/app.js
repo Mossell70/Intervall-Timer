@@ -175,7 +175,7 @@ function updatePreview() {
   const timer = normalizeTimer(raw);
   const phases = buildSchedule(timer);
   const split = splitInterval(timer.intervalTime, timer.exerciseCount);
-  secs.forEach((s, i) => { s.textContent = split[i] !== undefined ? `${split[i]} s` : ''; });
+  secs.forEach((s, i) => { s.textContent = split[i] !== undefined ? `${formatTime(split[i])} min` : ''; });
   $('#split-hint').textContent = timer.exerciseCount > 1
     ? `Die Intervallzeit wird gleichmäßig auf die ${timer.exerciseCount} Übungen verteilt. ${timer.exercisePause > 0
       ? `Dazu kommt zwischen den Übungen jeweils ${formatTime(timer.exercisePause)} Pause.`

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 – 2026-10-07
+
+- Übungszeiten im Editor werden in Minuten und Sekunden angezeigt (z. B. 1:30 min)
+
 ## 1.1.0 – 2026-10-07
 
 - Neu: frei einstellbare Pause zwischen den Übungen eines Intervalls (eigene Phasenfarbe, Sprachansage, Ablaufvorschau)
